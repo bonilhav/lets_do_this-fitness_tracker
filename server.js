@@ -22,6 +22,7 @@ mongoose.connect(
     }
 )
 
+require('./controllers/apiRoutes')(app)
 require('./controllers/htmlRoutes')(app)
 
 
