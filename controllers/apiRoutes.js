@@ -1,49 +1,44 @@
-const Workout = require("../models/workout")
+const db = require('../models');
 
-module.exports = function (app) {
-    app.get('/api/workouts', function (req, res) {
+module.exports = (app) => {
+    app.get('/api/workouts', async (req, res) => {
         try {
-            const workoutData = Workout.find()
+            const workout = await db.Workout.find({})
+            res.json(workout);
+        } catch (e) {
+            res.json(e);
+        }
+    });
+
+    app.post('/api/workouts', async (req, res) => {
+        try {
+            const workout = await db.Workout.create({})
+            res.json(workout);
+        }
+        catch (e) {
+            res.json(e);
+        }
+    })
+
+
+    app.put('/api/workouts/:id', ({ body, params }, res) => {
+
+        try {
+            const workoutData = db.Workout.findByIdAndUpdate(
+                params.id,
+                { $push: { exercises: body } },
+                { new: true, runValidators: true }
+            )
             res.json(workoutData)
         } catch (e) {
             res.json(e);
         }
     })
 
-    app.post('/api/workouts', function (req, res) {
+    app.get('/api/workouts/range', (req, res) => {
         try {
-            const workoutData = Workout.create({})
-            res.json(workoutData)
-        } catch (e) {
-            res.json(e);
-        }
-    });
-
-    app.get('/api/workouts/range', function (req, res) {
-        try {
-            const workoutData = Workout.find()
-            res.json(workoutData)
-        } catch (e) {
-            res.json(e);
-        }
-    });
-
-    app.post('/api/workouts/range', function (req, res) {
-        try {
-            const workoutData = Workout.create({})
-            res.json(workoutData)
-        } catch (e) {
-            res.json(e);
-        }
-    });
-
-    app.put('/api/workouts/:id', function (req, res) {
-        try {
-            const workoutData = Workout.findByIdAndUpdate(
-                params.id,
-                {$push:{exercises:body}},
-            )
-            res.json(workoutData)
+            const workout = await db.Workout.find({})
+            res.json(workout);
         } catch (e) {
             res.json(e);
         }
