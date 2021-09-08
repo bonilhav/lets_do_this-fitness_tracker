@@ -35,7 +35,7 @@ module.exports = (app) => {
         }
     })
 
-    app.get('/api/workouts/range', (req, res) => {
+    app.get('/api/workouts/range', async (req, res) => {
         try {
             const workout = await db.Workout.find({})
             res.json(workout);
